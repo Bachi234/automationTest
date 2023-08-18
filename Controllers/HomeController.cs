@@ -24,15 +24,15 @@ namespace automationTest.Controllers
 
         public IActionResult Index()
         {
-            // You don't need to create a new instance of TableViewModel here
-            return View(_viewModel);
+            TableViewModel viewModel = new TableViewModel();
+            return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult Index(string searchId)
         {
-            // You can directly use _context to query the database
-            var filteredEvents = _context.tblEvents.Where(data => data.Mail_Number.Contains(searchId)).ToList();
+            
+            var filteredEvents = _viewModel.tblEvents.Where(data => data.Mail_Number.Contains(searchId)).ToList();
             var viewModel = new TableViewModel
             {
                 tblEvents = filteredEvents

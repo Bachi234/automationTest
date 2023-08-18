@@ -1,5 +1,7 @@
 using automationTest.Context;
 using automationTest.Models;
+using automationTest.ViewModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("MktgDB")));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ElasticDB")));
 
+builder.Services.AddScoped<TableViewModel>();
+
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
