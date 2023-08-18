@@ -6,6 +6,7 @@ namespace automationTest.Models
     {
         [Key]
         public int Id { get; set; }
-        public string? mail_number { get; set; }
+        public string? Mail_Number { get; set; }
+        public string? Subject { get; set; }
     }
 }

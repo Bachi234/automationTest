@@ -6,38 +6,35 @@ using System.Data.SqlClient;
 using automationTest.Models;
 using Microsoft.EntityFrameworkCore;
 using automationTest.Context;
+using automationTest.ViewModel;
 
 namespace automationTest.Controllers
 {
     public class HomeController : Controller
     {
-        
         private readonly ApplicationDbContext _context;
-        public HomeController(ApplicationDbContext context)
+        private readonly tblEvent _events;
+        public HomeController(ApplicationDbContext context, tblEvent events)
         {
             _context = context;
+            _events = events;
         }
-
+       
         public IActionResult Index()//will be considered as the Search Function 
         {
-            return View();
+            var viewModel = new TableViewModel();
+            return View(viewModel);
         }
-
-        //testerewrewfrewfdewfewfewfe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        [HttpPost]
+        public IActionResult Index(string searchId)
+        {
+            var filteredEvents = _events.tblEvent.Where(data => data.Mail_Number.Contains(searchId)).ToList();
+            var viewModel = new TableViewModel
+            {
+                tblEvent = filteredEvents
+            };
+            return View(viewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

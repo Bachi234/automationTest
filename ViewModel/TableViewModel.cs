@@ -6,6 +6,5 @@ namespace automationTest.ViewModel
     {
         public List<tblElasticData> tblElasticData { get; set; }
         public List<tblEvent> tblEvent { get; set; }
-        public TableViewModel() { }
     }
 }
