@@ -1,0 +1,51 @@
+﻿@using automationTest.ViewModel
+@model TableViewModel
+@{
+    ViewData["Title"] = "Mail Details";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+
+    <form method="post" action="/Home/DisplayMailDetails">
+        <div class="form-group">
+            <label for="mailNumber">Mail Number:</label>
+            <input type="text" class="form-control" id="mailNumber" name="mailNumber" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    @if (Model.tblElasticData != null)
+    {
+        <h2>Mail Details</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>To</th>
+                    <th>From</th>
+                    <th>Event Type</th>
+                    <th>Event Date</th>
+                    <th>Channel</th>
+                    <th>Subject</th>
+                    <th>Message Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.tblElasticData)
+                {
+                    <tr>
+                        <td>@detail.Id</td>
+                        <td>@detail.To</td>
+                        <td>@detail.From</td>
+                        <td>@detail.EventType</td>
+                        <td>@detail.EventDate</td>
+                        <td>@detail.Channel</td>
+                        <td>@detail.Subject</td>
+                        <td>@detail.MessageCategory</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
