@@ -1,3 +1,4 @@
+using automationTest.Context;
 using automationTest.Models;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
@@ -5,10 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddDbContext<MyDbContext>(options =>
-//options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStringA")));
-//builder.Services.AddDbContext<MyDbContext>(options =>
-//options.UseSqlServer(builder.Configuration.GetConnectionString("ConnStringB")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("MktgDB")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("ElasticDB")));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

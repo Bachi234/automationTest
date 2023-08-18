@@ -4,7 +4,7 @@ namespace automationTest.ViewModel
 {
     public class TableViewModel
     {
-        public List<tblElasticData> tblElasticData { get; set; }
-        public List<tblEvent> tblEvent { get; set; }
+        public List<tblElasticData> tblElasticDatas { get; set; }
+        public List<tblEvent> tblEvents { get; set; }
     }
 }

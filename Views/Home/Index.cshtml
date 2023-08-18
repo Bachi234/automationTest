@@ -1,7 +1,32 @@
-﻿@using automationTest.ViewModel
+﻿@using Azure.Core;
 @model TableViewModel
+
 @{
     ViewData["Title"] = "Mail Details";
 }
 
+<h2>@ViewData["Title"]</h2>
+
+<!-- Search Form -->
+<form method="post">
+    <input type="text" name="searchId" placeholder="Search by Mail Number">
+    <button type="submit">Search</button>
+</form>
+
+<!-- Display Filtered Data -->
+@if (Model.tblEvents != null && Model.tblEvents.Any())
+{
+    <h3>Filtered Subjects:</h3>
+    <ul>
+        @foreach (var item in Model.tblEvents)
+        {
+            <li>@item.Mail_Number</li>
+            <!-- Display other properties as needed -->
+        }
+    </ul>
+}
+else if (!string.IsNullOrEmpty(Context.Request.Form["searchId"]))
+{
+    <p>No results found.</p>
+}
 

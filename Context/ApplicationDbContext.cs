@@ -5,19 +5,24 @@ namespace automationTest.Context
 {
     public class ApplicationDbContext : DbContext
     {
-        public class ElasticContext : DbContext
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            public ElasticContext(DbContextOptions<ElasticContext> options) : base()
-            {
-            }
-            public DbSet<tblElasticData> tblElasticData { get; set; }
         }
-        public class EventContext : DbContext
-        {
-            public EventContext(DbContextOptions<EventContext> options) : base()
-            {
-            }
-            public DbSet<tblEvent> tblEvent { get; set; }
-        }
+        public DbSet<tblElasticData> tblElasticDatas { get; set; }
+        public DbSet<tblEvent> tblEvents { get; set; }
+        //public class ElasticContext : DbContext
+        //{
+        //    public DbSet<tblElasticData> tblElasticDatas { get; set; }
+        //    public ElasticContext(DbContextOptions<ElasticContext> options) : base(options)
+        //    {
+        //    }
+        //}
+        //public class EventContext : DbContext
+        //{
+        //    public DbSet<tblEvent> tblEvents { get; set; }
+        //    public EventContext(DbContextOptions<EventContext> options) : base(options)
+        //    {
+        //    }
+        //}
     }
 }
