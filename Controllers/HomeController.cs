@@ -37,6 +37,7 @@ namespace automationTest.Controllers
             return View(elasticData);
         }
 
+      
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
