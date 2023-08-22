@@ -7,37 +7,28 @@ using automationTest.Models;
 using Microsoft.EntityFrameworkCore;
 using automationTest.Context;
 using automationTest.ViewModel;
+using automationTest.Service;
 
 
 namespace automationTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly TableViewModel _viewModel;
-        private readonly ApplicationDbContext _context; // Added ApplicationDbContext dependency
+        private readonly ElasticDataService _tblElasticData;
 
-        public HomeController(ApplicationDbContext context, TableViewModel viewModel)
-        {
-            _context = context;
-            _viewModel = viewModel;
+        public HomeController(ElasticDataService elasticDataServices)
+        { 
+            _tblElasticData = elasticDataServices;
         }
-
-        public IActionResult Index()
+        public IActionResult Index(string searchSubject)
         {
-            TableViewModel viewModel = new TableViewModel();
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public IActionResult Index(string searchId)
-        {
-            
-            var filteredEvents = _viewModel.tblEvents.Where(data => data.Mail_Number.Contains(searchId)).ToList();
-            var viewModel = new TableViewModel
+            if (!string.IsNullOrEmpty(searchSubject))
             {
-                tblEvents = filteredEvents
-            };
-            return View(viewModel);
+                var elasticData = _tblElasticData.GetElasticDataBySubject(searchSubject);
+                return View(elasticData);
+            }
+
+            return View(new List<tblElasticData>());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

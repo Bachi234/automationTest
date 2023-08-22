@@ -1,5 +1,6 @@
 using automationTest.Context;
 using automationTest.Models;
+using automationTest.Service;
 using automationTest.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,13 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("MktgDB")));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//options.UseSqlServer(builder.Configuration.GetConnectionString("MktgDB")));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ElasticDB")));
-
-builder.Services.AddScoped<TableViewModel>();
-
+builder.Services.AddScoped<ElasticDataService>();
+builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -1,32 +1,57 @@
-﻿@using Azure.Core;
-@model TableViewModel
-
+﻿@model List<tblElasticData>
 @{
-    ViewData["Title"] = "Mail Details";
+    ViewData["Title"] = "Elastic Data";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<!-- Search Form -->
-<form method="post">
-    <input type="text" name="searchId" placeholder="Search by Mail Number">
-    <button type="submit">Search</button>
-</form>
+<div class="container">
+    <form method="get">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="searchSubject" placeholder="Search by Subject">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
 
-<!-- Display Filtered Data -->
-@if (Model.tblEvents != null && Model.tblEvents.Any())
-{
-    <h3>Filtered Subjects:</h3>
-    <ul>
-        @foreach (var item in Model.tblEvents)
-        {
-            <li>@item.Mail_Number</li>
-            <!-- Display other properties as needed -->
-        }
-    </ul>
-}
-@*else if (!string.IsNullOrEmpty(Context.Request.Form["searchId"]))
-{
+    @if (Model.Count > 0)
+    {
+        <h3>Search Results:</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>To</th>
+                        <th>From</th>
+                        <th>Event Type</th>
+                        <th>Event Date</th>
+                        <th>Channel</th>
+                        <th>Message Category</th>
+                        <th>Subject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.To</td>
+                            <td>@item.From</td>
+                            <td>@item.EventType</td>
+                            <td>@item.EventDate</td>
+                            <td>@item.Channel</td>
+                            <td>@item.MessageCategory</td>
+                            <td>@item.Subject</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    @*else if (!string.IsNullOrEmpty(Request.Query["searchSubject"]))
+    {
     <p>No results found.</p>
-}*@
-
+    }*@
+</div>
