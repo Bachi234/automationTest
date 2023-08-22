@@ -11,7 +11,7 @@ namespace automationTest.Service
         {
             _context = context;
         }
-
+       
         public List<tblElasticData> GetElasticDataBySubject(string searchSubject)
         {
             return _context.tblElasticData

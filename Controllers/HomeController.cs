@@ -9,7 +9,6 @@ using automationTest.Context;
 using automationTest.ViewModel;
 using automationTest.Service;
 
-
 namespace automationTest.Controllers
 {
     public class HomeController : Controller
@@ -20,16 +19,25 @@ namespace automationTest.Controllers
         { 
             _tblElasticData = elasticDataServices;
         }
-        public IActionResult Index(string searchSubject)
-        {
-            if (!string.IsNullOrEmpty(searchSubject))
-            {
-                var elasticData = _tblElasticData.GetElasticDataBySubject(searchSubject);
-                return View(elasticData);
-            }
 
-            return View(new List<tblElasticData>());
+        public IActionResult Index(string searchSubject, int page = 1, int pageSize = 10)
+        {
+            var elasticData = _tblElasticData.GetElasticDataBySubject(searchSubject);
+
+            int totalItems = elasticData.Count();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            ViewBag.SearchSubject = searchSubject;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = totalPages;
+
+            elasticData = elasticData.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return View(elasticData);
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

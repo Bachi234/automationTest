@@ -10,9 +10,7 @@ namespace automationTest.Context
         {
         }
         public DbSet<tblElasticData> tblElasticData { get; set; }
-        // Additional DbSet properties for other tables can be added here
-
-
+        public DbSet<tblEvent> tblEvent { get; set; }
     }
 }
 
