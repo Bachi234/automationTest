@@ -1,0 +1,16 @@
+﻿@model tblEvent
+
+@if (ViewBag.SearchResults != null && ViewBag.SearchResults.Any())
+{
+    <h3>Search Results:</h3>
+    <ul>
+        @foreach (var result in ViewBag.SearchResults)
+        {
+            <li>@result</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No results found.</p>
+}

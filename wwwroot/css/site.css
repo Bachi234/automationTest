@@ -21,4 +21,22 @@ body {
   margin-bottom: 60px;
 }
 
+.dataTables_wrapper .dataTables_paginate,
+.dataTables_length {
+    display: none;
+}
+
+.pagination .page-link {
+    color: black;
+}
+
+/*.dataTable {
+    width: 100%;*/ /* Set the table width */
+    /*table-layout: fixed;*/ /* Prevent automatic column resizing */
+/*}*/
+
+.dataTable td {
+        padding: 8px; /* Adjust cell padding as needed */
+}
+
 
