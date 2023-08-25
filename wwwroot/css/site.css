@@ -39,4 +39,8 @@ body {
         padding: 8px; /* Adjust cell padding as needed */
 }
 
+.dataTable th{
+    text-align: center;
+}
+
 

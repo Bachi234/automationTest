@@ -16,11 +16,13 @@ namespace automationTest.Controllers
     public class HomeController : Controller
     {
         private readonly ElasticDataService _tblElasticData;
+        private readonly ILogger _logger;
 
-        public HomeController(ElasticDataService elasticDataServices)
+        public HomeController(ElasticDataService elasticDataServices, ILogger<HomeController> logger)
         {
             _tblElasticData = elasticDataServices;
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            _logger = logger;
+            //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
         public IActionResult Index(string searchSubject, int page = 1, int pageSize = 10)
         {
@@ -51,10 +53,9 @@ namespace automationTest.Controllers
             try
             {
                 List<tblElasticData> allData = _tblElasticData.GetElasticDataBySubject(searchSubject);
-
                 var sb = new StringWriter();
 
-                sb.WriteLine("ID\tTo\tFrom\tEvent Type\tEvent Date\tChannel\tMessage Category"); // Headers
+                sb.WriteLine("ID\tTo\tFrom\tEvent Type\tEvent Date\tChannel\tSubject"); // Headers
 
                 foreach (var item in allData)
                 {
@@ -63,12 +64,11 @@ namespace automationTest.Controllers
 
                 byte[] bytes = System.Text.Encoding.UTF8.GetBytes(sb.ToString());
                 var stream = new MemoryStream(bytes);
-
                 return File(stream, "text/tab-separated-values", "exported_data_all.tsv");
             }
             catch (Exception ex)
             {
-                // Handle or log the exception here
+                _logger.LogError(ex, "An error has occured while exporting the data.");
                 return BadRequest("An error occurred while exporting the data.");
             }
         }

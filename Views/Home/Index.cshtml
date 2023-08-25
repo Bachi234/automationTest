@@ -6,10 +6,11 @@
 
 <h2>@ViewData["Title"]</h2>
 <input type="hidden" id="exportData" />
+
 <div class="container">
     <form method="get">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" name="searchSubject" placeholder="Search by Subject">
+            <input type="text" class="form-control" name="searchSubject" placeholder="Search Subject (Elastic Report)">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">Search</button>
             </div>
@@ -37,7 +38,7 @@
                         <th>Event Type</th>
                         <th>Event Date</th>
                         <th>Channel</th>
-                        <th>Message Cat.</th>
+                        <th>Subject</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -118,16 +119,16 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
 
-
     <script>
         $(document).ready(function () {
+            //initializeDateOutput
             var currentDate = new Date();
             var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             var formattedDate = months[currentDate.getMonth()] + '_' + currentDate.getDate() + '_' + currentDate.getFullYear();
 
             var dataTable = $('#dataTable').DataTable({
                 ordering: true, // This enables default sorting
-                dom: '<"additional-search">t<"bottom"lip>',
+                dom: '<"additional-search">t<"bottom"lip>', //removes default search bar
                 language: {
                     info: "", // Empty string to hide the "Showing x to x of x entries" text
                     infoEmpty: "",
@@ -135,11 +136,11 @@
                 },
             });
 
-            // Download Single Page button
+            //exportSinglePageButtonFunc
             $('#excelButton').on('click', function () {
                 exportExcel($('#dataTable tbody tr'));
             });
-            // Export All as Excel button
+            //exportAllBtnFunc
             $('#exportAllButton').on('click', function () {
                 $.ajax({
                     url: "@Url.Action("ExportAll", "Home")",
@@ -153,7 +154,7 @@
                     }
                 });
             });
-
+            //exportFunc
             function exportExcel(rows) {
                 var tableData = [];
 
@@ -166,7 +167,6 @@
                 });
 
                 $('#exportData').val(tableData.join('\n'));
-
                 var blob = new Blob([$('#exportData').val()], { type: 'application/vnd.ms-excel' });
                 var a = document.createElement('a');
                 a.href = window.URL.createObjectURL(blob);
