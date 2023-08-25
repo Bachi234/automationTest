@@ -11,10 +11,17 @@ builder.Services.AddControllersWithViews();
 
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //options.UseSqlServer(builder.Configuration.GetConnectionString("MktgDB")));
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ElasticDB")));
+
+builder.Services.AddDbContext<ApplicationDbContext_>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("MktgDB")));
+
+builder.Services.AddScoped<EventDataService>();
 builder.Services.AddScoped<ElasticDataService>();
 builder.Services.AddScoped<ApplicationDbContext>();
+builder.Services.AddScoped<ApplicationDbContext_>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

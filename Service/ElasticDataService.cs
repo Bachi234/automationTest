@@ -1,6 +1,7 @@
 ﻿using automationTest.Context;
 using automationTest.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace automationTest.Service
 {
@@ -12,10 +13,9 @@ namespace automationTest.Service
         {
             _context = context;
         }
-
         public List<tblElasticData> GetElasticDataBySubject(string searchSubject)
         {
-            return _context.tblElasticData
+                return _context.tblElasticData
                 .Where(data => data.Subject == searchSubject)
                 .Select(data => new tblElasticData
                 {
