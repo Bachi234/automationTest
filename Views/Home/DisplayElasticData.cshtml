@@ -15,6 +15,7 @@
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
+            <div id="errorBox" class="alert alert-danger" style="display: none;"></div>
         </div>
     </form>
     @if (Model != null && Model.Any())
@@ -120,8 +121,13 @@
             var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             var formattedDate = months[currentDate.getMonth()] + '_' + currentDate.getDate() + '_' + currentDate.getFullYear();
 
-            var searchMailNumber = sessionStorage.getItem('searchMailNumber');
+            var searchSubjectValue = $('input[name="searchSubject"]').val();
+            //var searchMailNumber = sessionStorage.getItem('searchMailNumber');
             console.log('searchMailNumber:', searchMailNumber);
+            if (!searchSubjectValue) {
+                event.preventDefault(); // Prevent form submission
+                displayErrorMessage("Please enter a valid search subject.");
+            }
 
             var dataTable = $('#dataTable').DataTable({
                 ordering: true, // This enables default sorting
@@ -138,12 +144,6 @@
                 exportExcel($('#dataTable tbody tr'));
             });
 
-            //$('form').on('submit', function () {
-            //    var searchMailNumber = $('[name="searchMailNumber"]').val();
-            //    sessionStorage.setItem('searchMailNumber', searchMailNumber);
-            //    console.log('searchMailNumber:', searchMailNumber);
-            //});
-
             //exportAllBtnFunc
             $('#exportAllButton').on('click', function () {
                 $.ajax({
@@ -155,13 +155,20 @@
                         a.href = window.URL.createObjectURL(blob);
                         a.download = searchMailNumber + '_' + formattedDate + '.xls';
                         a.click();
-                    }
+                    },
                 });
             });
 
-            function exportExcel(rows) {
-                var tableData = [];
+            $('form').on('submit', function (event) {
+                var searchSubjectValue = $('input[name="searchSubject"]').val();
+                if (!searchSubjectValue) {
+                    event.preventDefault(); // Prevent form submission
+                    displayErrorMessage("Please enter a valid search subject.");
+                }
+            });
 
+            function exportExcel(rows){
+                var tableData = [];
                 rows.each(function () {
                     var row = [];
                     $(this).find('td').each(function () {
@@ -170,6 +177,11 @@
                     tableData.push(row.join('\t'));
                 });
 
+            function displayErrorMessage(message) {
+                    $('#errorBox').text(message);
+                    $('#errorBox').show();
+                }
+                });
                 //exportSinglePageButtonFunc
                 $('#exportData').val(tableData.join('\n'));
                 var blob = new Blob([$('#exportData').val()], { type: 'application/vnd.ms-excel' });
