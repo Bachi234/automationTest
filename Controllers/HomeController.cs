@@ -80,7 +80,6 @@ namespace automationTest.Controllers
                 {
                     sb.WriteLine($"{item.Id}\t{item.To}\t{item.From}\t{item.EventType}\t{item.EventDate}\t{item.Channel}\t{item.MessageCategory}");
                 }
-
                 byte[] bytes = System.Text.Encoding.UTF8.GetBytes(sb.ToString());
                 var stream = new MemoryStream(bytes);
                 return File(stream, "text/tab-separated-values", "exported_data_all.tsv");

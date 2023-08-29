@@ -57,14 +57,14 @@
                         @if (ViewBag.CurrentPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })">Previous</a>
+                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, searchMailNumber = ViewBag.SearchMailNumber, page = ViewBag.CurrentPage - 1, pageSize = ViewBag.PageSize })">Previous</a>
                             </li>
                         }
 
                         @if (ViewBag.CurrentPage > 3)
                         {
                             <li class="page-item">
-                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, page = 1, pageSize = ViewBag.PageSize })">1</a>
+                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, searchMailNumber = ViewBag.SearchMailNumber, page = 1, pageSize = ViewBag.PageSize })">1</a>
                             </li>
                             <li class="page-item disabled">
                                 <span class="page-link">...</span>
@@ -74,7 +74,7 @@
                         @for (var pge = Math.Max(1, ViewBag.CurrentPage - 2); pge <= Math.Min(ViewBag.TotalPages, ViewBag.CurrentPage + 2); pge++)
                         {
                             <li class="page-item @(pge == ViewBag.CurrentPage ? "active" : "")">
-                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, searchMailNumber = ViewBag.SearchMailNumber, page = pge, pageSize = ViewBag.PageSize })">@pge</a>
+                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, searchMailNumber =  ViewBag.SearchMailNumber, page = pge, pageSize = ViewBag.PageSize })">@pge</a>
                             </li>
                         }
 
@@ -84,14 +84,14 @@
                                 <span class="page-link">...</span>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, page = ViewBag.TotalPages, pageSize = ViewBag.PageSize })">@ViewBag.TotalPages</a>
+                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, searchMailNumber = ViewBag.SearchMailNumber, page = ViewBag.TotalPages, pageSize = ViewBag.PageSize })">@ViewBag.TotalPages</a>
                             </li>
                         }
 
                         @if (ViewBag.CurrentPage < ViewBag.TotalPages)
                         {
                             <li class="page-item">
-                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize })">Next</a>
+                                <a class="page-link" href="@Url.Action("DisplayElasticData", new { searchSubject = ViewBag.SearchSubject, searchMailNumber = ViewBag.SearchMailNumber, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize })">Next</a>
                             </li>
                         }
 
@@ -138,17 +138,17 @@
                 exportExcel($('#dataTable tbody tr'));
             });
 
-            $('form').on('submit', function () {
-                var searchMailNumber = $('[name="searchMailNumber"]').val();
-                sessionStorage.setItem('searchMailNumber', searchMailNumber);
-                console.log('searchMailNumber:', searchMailNumber);
-            });
+            //$('form').on('submit', function () {
+            //    var searchMailNumber = $('[name="searchMailNumber"]').val();
+            //    sessionStorage.setItem('searchMailNumber', searchMailNumber);
+            //    console.log('searchMailNumber:', searchMailNumber);
+            //});
 
             //exportAllBtnFunc
             $('#exportAllButton').on('click', function () {
                 $.ajax({
                     url: "@Url.Action("ExportAll", "Home")",
-                    data: { searchSubject: "@ViewBag.SearchSubject" },
+                    data: { searchSubject: "@ViewBag.SearchSubject" },  
                     success: function (response) {
                         var blob = new Blob([response], { type: 'application/vnd.ms-excel' });
                         var a = document.createElement('a');
