@@ -37,7 +37,7 @@ namespace automationTest.Controllers
             List<tblEvent> events = _tblEventData.GetMailNumber(searchMailNumber);
             return View(events);
         }
-        public IActionResult DisplayElasticData (string searchMailNumber, string searchSubject, int page = 1, int pageSize = 10)
+        public IActionResult DisplayElasticData(string searchMailNumber, string searchSubject, int page = 1, int pageSize = 10)
         {
             var elasticData = _tblElasticData.GetElasticDataBySubject(searchSubject);
             int totalItems = elasticData.Count();
@@ -48,7 +48,7 @@ namespace automationTest.Controllers
             ViewBag.CurrentPage = page;
             ViewBag.PageSize = pageSize;
             ViewBag.TotalPages = totalPages;
-         
+
             if (!string.IsNullOrEmpty(searchMailNumber))
             {
                 var mailNumberData = _tblElasticData.GetElasticDataBySubject(searchMailNumber);
@@ -98,3 +98,6 @@ namespace automationTest.Controllers
         }
     }
 }
+
+
+//

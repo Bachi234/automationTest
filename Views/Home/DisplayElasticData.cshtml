@@ -15,7 +15,6 @@
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">Submit</button>
             </div>
-            <div id="errorBox" class="alert alert-danger" style="display: none;"></div>
         </div>
     </form>
     @if (Model != null && Model.Any())
@@ -108,12 +107,12 @@
             </div>
         </div>
     }
-    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
- 
+
     <script>
         $(document).ready(function () {
             //initializeDateforFileName
@@ -121,13 +120,8 @@
             var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             var formattedDate = months[currentDate.getMonth()] + '_' + currentDate.getDate() + '_' + currentDate.getFullYear();
 
-            var searchSubjectValue = $('input[name="searchSubject"]').val();
-            //var searchMailNumber = sessionStorage.getItem('searchMailNumber');
+            var searchMailNumber = sessionStorage.getItem('searchMailNumber');
             console.log('searchMailNumber:', searchMailNumber);
-            if (!searchSubjectValue) {
-                event.preventDefault(); // Prevent form submission
-                displayErrorMessage("Please enter a valid search subject.");
-            }
 
             var dataTable = $('#dataTable').DataTable({
                 ordering: true, // This enables default sorting
@@ -148,27 +142,20 @@
             $('#exportAllButton').on('click', function () {
                 $.ajax({
                     url: "@Url.Action("ExportAll", "Home")",
-                    data: { searchSubject: "@ViewBag.SearchSubject" },  
+                    data: { searchSubject: "@ViewBag.SearchSubject" },
                     success: function (response) {
                         var blob = new Blob([response], { type: 'application/vnd.ms-excel' });
                         var a = document.createElement('a');
                         a.href = window.URL.createObjectURL(blob);
                         a.download = searchMailNumber + '_' + formattedDate + '.xls';
                         a.click();
-                    },
+                    }
                 });
             });
 
-            $('form').on('submit', function (event) {
-                var searchSubjectValue = $('input[name="searchSubject"]').val();
-                if (!searchSubjectValue) {
-                    event.preventDefault(); // Prevent form submission
-                    displayErrorMessage("Please enter a valid search subject.");
-                }
-            });
-
-            function exportExcel(rows){
+            function exportExcel(rows) {
                 var tableData = [];
+
                 rows.each(function () {
                     var row = [];
                     $(this).find('td').each(function () {
@@ -177,17 +164,12 @@
                     tableData.push(row.join('\t'));
                 });
 
-            function displayErrorMessage(message) {
-                    $('#errorBox').text(message);
-                    $('#errorBox').show();
-                }
-                });
                 //exportSinglePageButtonFunc
                 $('#exportData').val(tableData.join('\n'));
                 var blob = new Blob([$('#exportData').val()], { type: 'application/vnd.ms-excel' });
                 var a = document.createElement('a');
                 a.href = window.URL.createObjectURL(blob);
-                a.download =  searchMailNumber + '_CurrentPge_' + formattedDate + '.xls';
+                a.download = searchMailNumber + '_CurrentPge_' + formattedDate + '.xls';
                 a.click();
             }
         });
