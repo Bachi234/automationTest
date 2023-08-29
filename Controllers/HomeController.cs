@@ -27,7 +27,17 @@ namespace automationTest.Controllers
             _logger = logger;
             //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
-        public IActionResult Index(string searchMailNumber, string searchSubject, int page = 1, int pageSize = 10)
+        public IActionResult Index(string searchMailNumber)
+        {
+            ViewBag.SearchMailNumber = searchMailNumber;
+            if (string.IsNullOrEmpty(searchMailNumber))
+            {
+                return View(new List<tblEvent>());
+            }
+            List<tblEvent> events = _tblEventData.GetMailNumber(searchMailNumber);
+            return View(events);
+        }
+        public IActionResult DisplayElasticData (string searchMailNumber, string searchSubject, int page = 1, int pageSize = 10)
         {
             var elasticData = _tblElasticData.GetElasticDataBySubject(searchSubject);
             int totalItems = elasticData.Count();
@@ -38,7 +48,7 @@ namespace automationTest.Controllers
             ViewBag.CurrentPage = page;
             ViewBag.PageSize = pageSize;
             ViewBag.TotalPages = totalPages;
-
+         
             if (!string.IsNullOrEmpty(searchMailNumber))
             {
                 var mailNumberData = _tblElasticData.GetElasticDataBySubject(searchMailNumber);
@@ -80,18 +90,6 @@ namespace automationTest.Controllers
                 //_logger.LogError(ex, "An error has occured while exporting the data.");
                 return BadRequest("An error occurred while exporting the data.");
             }
-        }
-
-        public IActionResult Mktg_Subject_View(string searchMailNumber)
-        {
-            if (string.IsNullOrEmpty(searchMailNumber))
-            {
-                return View(new List<tblEvent>());
-            }
-
-            List<tblEvent> events = _tblEventData.GetMailNumber(searchMailNumber);
-
-            return View(events);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

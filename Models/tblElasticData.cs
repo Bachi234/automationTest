@@ -13,8 +13,5 @@ namespace automationTest.Models
         public string? Channel { get; set; }
         public string? Subject { get; set; }
         public string? MessageCategory { get; set; }
-
-
-
     }
 }
